@@ -8,6 +8,12 @@
     <artifactId>KlopLocalityDataBase</artifactId>
     <version>1.0</version>
 
+    <packaging>jar</packaging>
+    <name>KlopLocalityDataBase</name>
+
+    <url>https://github.com/gdpl2112/KlopLocalityDataBase</url>
+
+    <description>KlopLocalityDataBase</description>
     <properties>
         <maven.compiler.source>11</maven.compiler.source>
         <maven.compiler.target>11</maven.compiler.target>
@@ -15,15 +21,15 @@
     <licenses>
         <license>
             <name>GNU AFFERO GENERAL PUBLIC LICENSE Version 2</name>
-            <url>https://raw.githubusercontent.com/gdpl2112/OSSRH-87145/master/LICENSE</url>
+            <url>https://raw.githubusercontent.com/gdpl2112/KlopLocalityDataBase/master/LICENSE</url>
             <distribution>repo</distribution>
             <comments>--</comments>
         </license>
     </licenses>
     <scm>
-        <connection>scm:git:git://github.com/gdpl2112/OSSRH-87145.git</connection>
-        <developerConnection>scm:git:ssh://github.com/gdpl2112/OSSRH-87145</developerConnection>
-        <url>https://github.com/gdpl2112/OSSRH-87145</url>
+        <connection>scm:git:git://github.com/gdpl2112/KlopLocalityDataBase.git</connection>
+        <developerConnection>scm:git:ssh://github.com/gdpl2112/KlopLocalityDataBase</developerConnection>
+        <url>https://github.com/gdpl2112/KlopLocalityDataBase</url>
     </scm>
     <dependencies>
         <dependency>
