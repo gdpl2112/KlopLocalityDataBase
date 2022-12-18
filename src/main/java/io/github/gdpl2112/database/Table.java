@@ -44,28 +44,33 @@ public class Table {
         return KlopLocalityDataBase.INSTANCE.now;
     }
 
-    public Table insert(Object... objects) {
-        Item item = new Item();
-        int n = fieldMap.keySet().size();
-        Iterator<String> iterator0 = fieldMap.keySet().iterator();
-        for (int i = 0; i < n; i++) {
-            Object o = objects[i];
-            String name = iterator0.next();
-            Field field = fieldMap.get(name);
-            if (field.getIncrement()) {
-                if (o == null) {
-                    int id = getMax(items, field);
-                    o = id + 1;
+    public Boolean insert(Object... objects) {
+        try {
+            Item item = new Item();
+            int n = fieldMap.keySet().size();
+            Iterator<String> iterator0 = fieldMap.keySet().iterator();
+            for (int i = 0; i < n; i++) {
+                Object o = objects[i];
+                String name = iterator0.next();
+                Field field = fieldMap.get(name);
+                if (field.getIncrement()) {
+                    if (o == null) {
+                        int id = getMax(items, field);
+                        o = id + 1;
+                    }
                 }
+                FieldValue value = new FieldValue();
+                value.setField(field);
+                value.setObject(o);
+                item.getLine().put(field.getName(), value);
             }
-            FieldValue value = new FieldValue();
-            value.setField(field);
-            value.setObject(o);
-            item.getLine().put(field.getName(), value);
+            items.add(item);
+            KlopLocalityDataBase.INSTANCE.now.flush();
+            return true;
+        } catch (Exception e) {
+            e.printStackTrace();
         }
-        items.add(item);
-        KlopLocalityDataBase.INSTANCE.now.flush();
-        return this;
+        return false;
     }
 
     private int getMax(List<Item> items, Field field) {

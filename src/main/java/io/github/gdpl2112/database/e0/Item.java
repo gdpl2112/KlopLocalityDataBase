@@ -1,5 +1,6 @@
 package io.github.gdpl2112.database.e0;
 
+import com.alibaba.fastjson.JSONObject;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.ToString;
@@ -18,5 +19,13 @@ public class Item {
 
     public void setLine(Map<String, FieldValue> line) {
         this.line = line;
+    }
+
+    public <T> T toJavaClass(Class<T> type) {
+        JSONObject jo = new JSONObject();
+        line.forEach((k, v) -> {
+            jo.put(k, v.toObj());
+        });
+        return jo.toJavaObject(type);
     }
 }

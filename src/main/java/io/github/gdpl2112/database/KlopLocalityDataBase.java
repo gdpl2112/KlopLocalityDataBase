@@ -63,7 +63,7 @@ public class KlopLocalityDataBase {
      * @return
      */
     public synchronized DataBase createDataBase(String name) {
-        if (dataBaseMap.containsKey(name)) return null;
+        if (dataBaseMap.containsKey(name)) return dataBaseMap.get(name);
         DataBase dataBase = new DataBase();
         dataBase.setName(name);
         dataBaseMap.put(name, dataBase);
@@ -112,4 +112,6 @@ public class KlopLocalityDataBase {
     public DataBase get() {
         return now;
     }
+
+
 }
