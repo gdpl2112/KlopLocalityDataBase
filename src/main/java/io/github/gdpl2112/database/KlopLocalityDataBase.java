@@ -12,21 +12,24 @@ import java.util.Map;
 public class KlopLocalityDataBase {
     public static KlopLocalityDataBase INSTANCE;
 
-    public static KlopLocalityDataBase createDefault() {
-        INSTANCE = new KlopLocalityDataBase();
-        INSTANCE.reload();
-        return INSTANCE;
-    }
-
     static {
         Runtime.getRuntime().addShutdownHook(new Thread(() -> {
             INSTANCE.apply();
         }));
     }
 
-    public KlopLocalityDataBase() {}
-
+    protected Map<String, DataBase> dataBaseMap = new HashMap<>();
+    protected DataBase now = null;
     private String dataFile = "./database.kdb";
+
+    public KlopLocalityDataBase() {
+    }
+
+    public static KlopLocalityDataBase createDefault() {
+        INSTANCE = new KlopLocalityDataBase();
+        INSTANCE.reload();
+        return INSTANCE;
+    }
 
     public String getDataFile() {
         return dataFile;
@@ -35,8 +38,6 @@ public class KlopLocalityDataBase {
     public void setDataFile(String dataFile) {
         this.dataFile = dataFile;
     }
-
-    protected Map<String, DataBase> dataBaseMap = new HashMap<>();
 
     /**
      * 适用于更改数据文件后的重载
@@ -52,8 +53,6 @@ public class KlopLocalityDataBase {
             } else continue;
         }
     }
-
-    protected DataBase now = null;
 
     /**
      * 创建一个数据库 创建失败返回null 成功返回实例

@@ -2,10 +2,6 @@ package test;
 
 import io.github.gdpl2112.database.KlopLocalityDataBase;
 import io.github.gdpl2112.database.Table;
-import io.github.gdpl2112.database.e0.Item;
-import io.github.gdpl2112.database.e1.QueryWrapper;
-
-import java.util.List;
 
 /**
  * @author github.kloping

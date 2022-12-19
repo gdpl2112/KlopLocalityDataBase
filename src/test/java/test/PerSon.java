@@ -8,6 +8,11 @@ import lombok.Data;
  */
 @Data
 public class PerSon {
+    @TableId(increment = true, unique = true)
+    private Integer id;
+    private String name;
+    private Integer age;
+
     public PerSon() {
     }
 
@@ -15,11 +20,4 @@ public class PerSon {
         this.name = name;
         this.age = age;
     }
-
-    @TableId(increment = true, unique = true)
-    private Integer id;
-
-    private String name;
-
-    private Integer age;
 }

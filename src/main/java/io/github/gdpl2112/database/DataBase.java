@@ -18,8 +18,8 @@ import java.util.Map;
 @EqualsAndHashCode
 @ToString
 public class DataBase {
-    private String name;
     protected Map<String, Table> tableMap = new HashMap<>(1);
+    private String name;
 
     public Boolean delete() {
         try {

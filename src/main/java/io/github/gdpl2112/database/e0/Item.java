@@ -8,6 +8,8 @@ import lombok.ToString;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
+import static io.github.gdpl2112.database.Table.EMPTY_ITEM;
+
 /**
  * @author github.kloping
  */
@@ -22,6 +24,7 @@ public class Item {
     }
 
     public <T> T toJavaClass(Class<T> type) {
+        if (this.equals(EMPTY_ITEM)) return null;
         JSONObject jo = new JSONObject();
         line.forEach((k, v) -> {
             jo.put(k, v.toObj());

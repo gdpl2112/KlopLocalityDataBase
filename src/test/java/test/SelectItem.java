@@ -16,7 +16,7 @@ public class SelectItem {
                 .getAndUse().getTable("table0");
         List<Item> items = table.selectListBy(new QueryWrapper());
         System.out.println(items);
-        Item item= table.selectOneById(1);
+        Item item = table.selectOneById(1);
         System.out.println(item);
     }
 }

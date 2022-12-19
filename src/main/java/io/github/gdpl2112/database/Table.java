@@ -10,13 +10,14 @@ import lombok.Data;
 
 import java.util.*;
 import java.util.concurrent.atomic.AtomicInteger;
-import java.util.concurrent.atomic.AtomicReference;
 
 /**
  * @author github.kloping
  */
 @Data
 public class Table {
+    public static final Item EMPTY_ITEM = new Item();
+
     private String name;
     private Map<String, Field> fieldMap = new LinkedHashMap<>();
     private List<Item> items = new LinkedList<>();
@@ -54,6 +55,10 @@ public class Table {
                 Object o = objects[i];
                 String name = iterator0.next();
                 Field field = fieldMap.get(name);
+                if (field.getUnique()) {
+                    if (!selectOneByKey(o).equals(EMPTY_ITEM))
+                        return false;
+                }
                 if (field.getIncrement()) {
                     if (o == null) {
                         int id = getMax(items, field);
@@ -102,20 +107,18 @@ public class Table {
      * @return
      */
     public Item selectOneById(Integer id) {
-        AtomicReference<Item> i = new AtomicReference<>();
         for (Item item : items) {
             for (String k : item.getLine().keySet()) {
                 FieldValue v = item.getLine().get(k);
                 Field field = getFieldMap().get(k);
-                if (field.getUnique() && field.getIncrement() && field.getClassName().equals(Integer.class.getName())) {
-                    if (v.toObj().equals(id)) {
-                        i.set(item);
-                        break;
+                if (field.getUnique() && field.getIncrement()) {
+                    if (v.equals(id)) {
+                        return item;
                     }
                 }
             }
         }
-        return i.get();
+        return EMPTY_ITEM;
     }
 
     /**
@@ -124,20 +127,19 @@ public class Table {
      * @param key
      * @return
      */
-    public Item selectOneByKey(String key) {
-        AtomicReference<Item> i = null;
+    public Item selectOneByKey(Object key) {
         for (Item item : items) {
-            item.getLine().forEach((k, v) -> {
+            for (String k : item.getLine().keySet()) {
+                FieldValue v = item.getLine().get(k);
                 Field field = getFieldMap().get(k);
-                if (field.getUnique() && field.getClassName().equals(String.class.getName())) {
+                if (field.getUnique()) {
                     if (v.equals(key)) {
-                        i.set(item);
-                        return;
+                        return item;
                     }
                 }
-            });
+            }
         }
-        return i.get();
+        return EMPTY_ITEM;
     }
 
     public List<Item> update(UpdateWrapper wrapper) {
@@ -227,12 +229,12 @@ public class Table {
             Object o;
             o = wrapper.getEqK2v().get(k);
             if (o != null)
-                if (o.equals(v.toObj())) {
+                if (v.equals(o)) {
                     r.getAndIncrement();
                 }
             o = wrapper.getUeqK2v().get(k);
             if (o != null)
-                if (!o.equals(v.toObj())) {
+                if (!v.equals(o)) {
                     r.getAndIncrement();
                 }
             Number l;

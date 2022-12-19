@@ -60,7 +60,6 @@ public class PerSon {
 
 ```
 
-
 ```java
 import io.github.gdpl2112.database.KlopLocalityDataBase;
 import io.github.gdpl2112.database.KlopLocalityDataBaseProxy;

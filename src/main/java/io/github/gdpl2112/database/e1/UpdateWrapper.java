@@ -11,7 +11,7 @@ import java.util.Map;
  */
 @Data
 @Accessors(chain = true)
-public class UpdateWrapper extends QueryWrapper{
+public class UpdateWrapper extends QueryWrapper {
     public Map<String, Object> gk2v = new HashMap<>();
 
     public UpdateWrapper set(String key, Object v) {

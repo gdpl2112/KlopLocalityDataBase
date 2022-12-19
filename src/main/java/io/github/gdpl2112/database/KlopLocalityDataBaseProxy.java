@@ -21,8 +21,80 @@ import java.util.regex.Pattern;
  */
 public class KlopLocalityDataBaseProxy implements InvocationHandler {
     public static final KlopLocalityDataBaseProxy INSTANCE = new KlopLocalityDataBaseProxy();
+    public static final Pattern PATTERN = Pattern.compile("[A-Z]");
     private static final Map<Class, Object> O2C = new LinkedHashMap<>();
     private static final Random SECURE_RANDOM = new SecureRandom();
+
+    public static String toLowName(String name) {
+        String firstS = name.substring(0, 1).toLowerCase();
+        name = firstS + name.substring(1);
+        Matcher matcher = PATTERN.matcher(name);
+        while (matcher.find()) {
+            String g0 = matcher.group();
+            String g1 = toLow(g0);
+            name = name.replace(g0, g1);
+        }
+        return name;
+    }
+
+    public static String toLow(String s1) {
+        switch (s1.charAt(0)) {
+            case 'A':
+                return "_a";
+            case 'B':
+                return "_b";
+            case 'C':
+                return "_c";
+            case 'D':
+                return "_d";
+            case 'E':
+                return "_e";
+            case 'F':
+                return "_f";
+            case 'G':
+                return "_g";
+            case 'H':
+                return "_h";
+            case 'I':
+                return "_i";
+            case 'J':
+                return "_j";
+            case 'K':
+                return "_k";
+            case 'L':
+                return "_l";
+            case 'M':
+                return "_m";
+            case 'N':
+                return "_n";
+            case 'O':
+                return "_o";
+            case 'P':
+                return "_p";
+            case 'Q':
+                return "_q";
+            case 'R':
+                return "_r";
+            case 'S':
+                return "_s";
+            case 'T':
+                return "_t";
+            case 'U':
+                return "_u";
+            case 'V':
+                return "_v";
+            case 'W':
+                return "_w";
+            case 'X':
+                return "_x";
+            case 'Y':
+                return "_y";
+            case 'Z':
+                return "_z";
+            default:
+                return s1;
+        }
+    }
 
     public <T extends BaseTable> T generate(Class<T> cla) {
         Object t = Proxy.newProxyInstance(cla.getClassLoader(), new Class[]{cla}, this);
@@ -122,7 +194,6 @@ public class KlopLocalityDataBaseProxy implements InvocationHandler {
         return -1;
     }
 
-
     private Table createTable(String tableName, Class type) {
         TableBuilder builder = KlopLocalityDataBase.INSTANCE.get().createTable(tableName);
         for (Field declaredField : type.getDeclaredFields()) {
@@ -144,20 +215,6 @@ public class KlopLocalityDataBaseProxy implements InvocationHandler {
         return builder.build();
     }
 
-    public static final Pattern PATTERN = Pattern.compile("[A-Z]");
-
-    public static String toLowName(String name) {
-        String firstS = name.substring(0, 1).toLowerCase();
-        name = firstS + name.substring(1);
-        Matcher matcher = PATTERN.matcher(name);
-        while (matcher.find()) {
-            String g0 = matcher.group();
-            String g1 = toLow(g0);
-            name = name.replace(g0, g1);
-        }
-        return name;
-    }
-
     private Class getType(Class cla) {
         try {
             Type[] types = cla.getGenericInterfaces();
@@ -165,65 +222,6 @@ public class KlopLocalityDataBaseProxy implements InvocationHandler {
             return (Class) type0.getActualTypeArguments()[0];
         } catch (Exception e) {
             return null;
-        }
-    }
-
-    public static String toLow(String s1) {
-        switch (s1.charAt(0)) {
-            case 'A':
-                return "_a";
-            case 'B':
-                return "_b";
-            case 'C':
-                return "_c";
-            case 'D':
-                return "_d";
-            case 'E':
-                return "_e";
-            case 'F':
-                return "_f";
-            case 'G':
-                return "_g";
-            case 'H':
-                return "_h";
-            case 'I':
-                return "_i";
-            case 'J':
-                return "_j";
-            case 'K':
-                return "_k";
-            case 'L':
-                return "_l";
-            case 'M':
-                return "_m";
-            case 'N':
-                return "_n";
-            case 'O':
-                return "_o";
-            case 'P':
-                return "_p";
-            case 'Q':
-                return "_q";
-            case 'R':
-                return "_r";
-            case 'S':
-                return "_s";
-            case 'T':
-                return "_t";
-            case 'U':
-                return "_u";
-            case 'V':
-                return "_v";
-            case 'W':
-                return "_w";
-            case 'X':
-                return "_x";
-            case 'Y':
-                return "_y";
-            case 'Z':
-                return "_z";
-            default:
-                return s1;
         }
     }
 }

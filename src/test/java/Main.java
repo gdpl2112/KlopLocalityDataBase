@@ -13,10 +13,12 @@ public class Main {
     public static void main(String[] args) {
         KlopLocalityDataBase.createDefault().createAndUseDataBase("db0");
         TestTable table = KlopLocalityDataBaseProxy.INSTANCE.generate(TestTable.class);
-//        table.insert(new PerSon("李六", 10));
+        PerSon son = new PerSon("李六A", 20);
+        son.setId(1);
+        table.insert(son);
 //        table.insert(new PerSon("张三", 15));
 //        son = table.selectOneById(1);
-        List<PerSon> list = table.selectByWrapper(new QueryWrapper().ueq("name","王五"));
+        List<PerSon> list = table.selectByWrapper(new QueryWrapper().ueq("name", "王五"));
 
         System.out.println();
     }

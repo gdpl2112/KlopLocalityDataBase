@@ -28,10 +28,10 @@ public interface BaseTable<T> {
     /**
      * 删除一条
      *
-     * @param id
+     * @param v
      * @return
      */
-    T deleteByKey(String id);
+    T deleteByKey(Object v);
 
     /**
      * 删除多条
@@ -74,10 +74,10 @@ public interface BaseTable<T> {
     T selectOneById(Integer id);
 
     /**
-     * 查询 {@link io.github.gdpl2112.database.Table#selectOneByKey(String)}
+     * 查询 {@link io.github.gdpl2112.database.Table#selectOneByKey(Object)}
      *
-     * @param key
+     * @param v
      * @return
      */
-    T selectOneByKey(String key);
+    T selectOneByKey(Object v);
 }

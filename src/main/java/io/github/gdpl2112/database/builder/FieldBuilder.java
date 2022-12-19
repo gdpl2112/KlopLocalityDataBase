@@ -6,8 +6,8 @@ import io.github.gdpl2112.database.e0.Field;
  * @author github.kloping
  */
 public class FieldBuilder {
-    private Field field;
     protected TableBuilder builder;
+    private Field field;
 
     public FieldBuilder(Class cla, TableBuilder builder, Integer st) {
         this.builder = builder;
