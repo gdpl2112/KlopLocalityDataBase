@@ -1,5 +1,6 @@
 package io.github.gdpl2112.database;
 
+import io.github.gdpl2112.database.anno.TableId;
 import io.github.gdpl2112.database.e0.Field;
 import io.github.gdpl2112.database.e0.FieldValue;
 import io.github.gdpl2112.database.e0.Item;
@@ -86,8 +87,8 @@ public class Table {
         List<Item> is = new LinkedList<>();
         AtomicInteger r = new AtomicInteger();
         for (Item item : items) {
-            selectPre(r, item, wrapper.getK2v(), wrapper);
-            if (r.get() == wrapper.k2v.size()) {
+            selectPre(r, item, wrapper);
+            if (r.get() == wrapper.getSize()) {
                 is.add(item);
             }
         }
@@ -143,8 +144,8 @@ public class Table {
         List<Item> is = new LinkedList<>();
         AtomicInteger r = new AtomicInteger();
         for (Item item : items) {
-            selectPre(r, item, wrapper.getK2v(), wrapper);
-            if (r.get() == wrapper.k2v.size()) {
+            selectPre(r, item, wrapper);
+            if (r.get() == wrapper.getSize()) {
                 wrapper.getGk2v().forEach((k, v) -> {
                     Field field = fieldMap.get(k);
                     item.getLine().get(k).setObject(v);
@@ -156,6 +157,27 @@ public class Table {
             KlopLocalityDataBase.INSTANCE.now.flush();
         }
         return is;
+    }
+
+    public List<Item> updateById(Object o) {
+        try {
+            UpdateWrapper wrapper = new UpdateWrapper();
+            for (java.lang.reflect.Field declaredField : o.getClass().getDeclaredFields()) {
+                if (declaredField.isAnnotationPresent(TableId.class)) {
+                    declaredField.setAccessible(true);
+                    Object o1 = declaredField.get(o);
+                    wrapper.add(KlopLocalityDataBaseProxy.toLowName(declaredField.getName()), o1);
+                } else {
+                    declaredField.setAccessible(true);
+                    Object o1 = declaredField.get(o);
+                    wrapper.set(KlopLocalityDataBaseProxy.toLowName(declaredField.getName()), o1);
+                }
+            }
+            return update(wrapper);
+        } catch (IllegalAccessException e) {
+            e.printStackTrace();
+        }
+        return null;
     }
 
     public List<Item> deleteBy(QueryWrapper wrapper) {
@@ -199,17 +221,31 @@ public class Table {
         return item;
     }
 
-    private void selectPre(AtomicInteger r, Item item, Map<String, Object> k2v, QueryWrapper wrapper) {
+    private void selectPre(AtomicInteger r, Item item, QueryWrapper wrapper) {
         r.set(0);
         item.getLine().forEach((k, v) -> {
-            Object o = k2v.get(k);
-            if (o == null) {
-                return;
-            } else {
+            Object o;
+            o = wrapper.getEqK2v().get(k);
+            if (o != null)
                 if (o.equals(v.toObj())) {
                     r.getAndIncrement();
                 }
-            }
+            o = wrapper.getUeqK2v().get(k);
+            if (o != null)
+                if (!o.equals(v.toObj())) {
+                    r.getAndIncrement();
+                }
+            Number l;
+            l = wrapper.getLessK2v().get(k);
+            if (l != null)
+                if (Long.valueOf(v.toObj().toString()) < l.longValue()) {
+                    r.getAndIncrement();
+                }
+            l = wrapper.getGraK2v().get(k);
+            if (l != null)
+                if (Long.valueOf(v.toObj().toString()) > l.longValue()) {
+                    r.getAndIncrement();
+                }
         });
     }
 }

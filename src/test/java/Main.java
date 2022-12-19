@@ -16,7 +16,7 @@ public class Main {
 //        table.insert(new PerSon("李六", 10));
 //        table.insert(new PerSon("张三", 15));
 //        son = table.selectOneById(1);
-        List<PerSon> list = table.selectByWrapper(new QueryWrapper());
+        List<PerSon> list = table.selectByWrapper(new QueryWrapper().ueq("name","王五"));
 
         System.out.println();
     }

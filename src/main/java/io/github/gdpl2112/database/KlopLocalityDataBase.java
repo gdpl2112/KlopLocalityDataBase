@@ -14,6 +14,7 @@ public class KlopLocalityDataBase {
 
     public static KlopLocalityDataBase createDefault() {
         INSTANCE = new KlopLocalityDataBase();
+        INSTANCE.reload();
         return INSTANCE;
     }
 
@@ -23,9 +24,7 @@ public class KlopLocalityDataBase {
         }));
     }
 
-    public KlopLocalityDataBase() {
-        reload();
-    }
+    public KlopLocalityDataBase() {}
 
     private String dataFile = "./database.kdb";
 

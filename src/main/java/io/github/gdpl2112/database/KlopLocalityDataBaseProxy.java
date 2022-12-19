@@ -46,7 +46,6 @@ public class KlopLocalityDataBaseProxy implements InvocationHandler {
         if (table == null) {
             table = createTable(tableName, type);
         }
-        BaseTable.class.getDeclaredMethod("deleteByWrapper", QueryWrapper.class);
         switch (method.getName()) {
             case "insert":
                 return table.insert(type2objs(table, args[0])) ? 1 : 0;
@@ -79,6 +78,12 @@ public class KlopLocalityDataBaseProxy implements InvocationHandler {
                 for (Item item : items2)
                     list2.add(item.toJavaClass(type));
                 return list2;
+            case "updateById":
+                List<Item> items3 = table.updateById(args[0]);
+                List list3 = new ArrayList<>();
+                for (Item item : items3)
+                    list3.add(item.toJavaClass(type));
+                return list3;
             default:
                 return null;
         }
@@ -141,7 +146,7 @@ public class KlopLocalityDataBaseProxy implements InvocationHandler {
 
     public static final Pattern PATTERN = Pattern.compile("[A-Z]");
 
-    public String toLowName(String name) {
+    public static String toLowName(String name) {
         String firstS = name.substring(0, 1).toLowerCase();
         name = firstS + name.substring(1);
         Matcher matcher = PATTERN.matcher(name);

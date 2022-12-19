@@ -50,6 +50,14 @@ public interface BaseTable<T> {
     List<T> updateByWrapper(UpdateWrapper wrapper);
 
     /**
+     * 更新操作
+     *
+     * @param t
+     * @return
+     */
+    T updateById(T t);
+
+    /**
      * 查询
      *
      * @param wrapper
