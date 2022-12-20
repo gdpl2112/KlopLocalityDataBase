@@ -132,10 +132,10 @@ public class KlopLocalityDataBaseProxy implements InvocationHandler {
                 for (Item item : items1)
                     list1.add(item.toJavaClass(type));
                 return list1;
-            case "deleteOneById":
-                return table.deleteOneById(Integer.valueOf(args[0].toString())).toJavaClass(type);
-            case "deleteOneByKey":
-                return table.deleteOneByKey(args[0].toString()).toJavaClass(type);
+            case "deleteById":
+                return table.deleteById(Integer.valueOf(args[0].toString())).toJavaClass(type);
+            case "deleteByKey":
+                return table.deleteByKey(args[0].toString()).toJavaClass(type);
             case "deleteByWrapper":
                 QueryWrapper wrapper = (QueryWrapper) args[0];
                 List<Item> items = table.deleteBy(wrapper);

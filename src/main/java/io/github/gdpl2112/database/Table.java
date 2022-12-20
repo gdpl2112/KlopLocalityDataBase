@@ -199,9 +199,9 @@ public class Table {
      * @param id
      * @return
      */
-    public Item deleteOneById(Integer id) {
+    public Item deleteById(Integer id) {
         Item item = selectOneById(id);
-        if (item != null) {
+        if (!item.equals(EMPTY_ITEM)) {
             items.remove(item);
             KlopLocalityDataBase.INSTANCE.now.flush();
         }
@@ -214,9 +214,9 @@ public class Table {
      * @param key
      * @return
      */
-    public Item deleteOneByKey(String key) {
+    public Item deleteByKey(String key) {
         Item item = selectOneByKey(key);
-        if (item != null) {
+        if (!item.equals(EMPTY_ITEM)) {
             items.remove(item);
             KlopLocalityDataBase.INSTANCE.now.flush();
         }

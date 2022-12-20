@@ -11,7 +11,7 @@ public class DeleteItem {
     public static void main(String[] args) {
         Table table = KlopLocalityDataBase.createDefault()
                 .getAndUse().getTable("table0");
-        Item item = table.deleteOneById(1);
+        Item item = table.deleteById(1);
         System.out.println(item);
     }
 }
